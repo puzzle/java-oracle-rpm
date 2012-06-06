@@ -9,6 +9,6 @@
 
 * Download binary from Oracle
 * Run binary
-* Rename extracted folder to e.g. java-1.6.0-oracle-1.6.0.32-x64
-* Create tarball: `tar czf java-1.6.0-oracle-1.6.0.32-x64.tgz java-1.6.0-oracle-1.6.0.32-x64`
+* Rename extracted folder to e.g. java-1.6.0-oracle-jre-1.6.0.32-x86\_64
+* Create tarball: `tar czf java-1.6.0-oracle-jre-1.6.0.32-x86_64.tgz java-1.6.0-oracle-jre-1.6.0.32-x86_64`
 * Versions and architecture must match RPM spec file

@@ -1,23 +1,23 @@
 %global majorver 1.6.0
 %global minorver 32
-%global release 1
+%global releasever 1
 %global priority 16100
-%global version %{majorver}.%{minorver}
-%global name java-%{majorver}-oracle-jre
-%global fullname %{name}-%{version}
+%global javaver %{majorver}.%{minorver}
+%global shortname java-%{majorver}-oracle-jre
+%global longname %{shortname}-%{javaver}
 # _jvmdir macro not working
 %global jvmdir /usr/lib/jvm
-%global installdir %{jvmdir}/%{name}.x86_64
+%global installdir %{jvmdir}/%{shortname}.x86_64
 
-Name:	%{name}
-Version: %{version}
-Release: %{release}puzzle
+Name:	%{shortname}
+Version: %{javaver}
+Release: puzzle.%{releasever}%{?dist}
 Summary: Oracle Java SE Runtime Environment
 
 Group: Development/Languages
 License: Oracle Corporation Binary Code License
 URL: http://www.oracle.com/technetwork/java/javase/overview/index.html
-Source0: %{fullname}-x86_64.tgz
+Source0: %{longname}-x86_64.tgz
 BuildArch: x86_64
 Requires(post): %{_sbindir}/alternatives
 Requires(postun): %{_sbindir}/alternatives
@@ -26,11 +26,7 @@ Requires(postun): %{_sbindir}/alternatives
 Environment to run Java programs.
 
 %prep
-%setup -q -n %{fullname}-x86_64
-# replace libodbc requires, fedora/redhat only provides libodbc(inst).so.n but no libodbc(inst).so
-%global _use_internal_dependency_generator 0
-%global requires_replace /bin/sh -c "%{__find_requires} | %{__sed} -e 's/libodbc.so/libodbc.so.2/;s/libodbcinst.so/libodbcinst.so.2/'"
-%global __find_requires %{requires_replace}
+%setup -q -n %{longname}-x86_64
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -75,5 +71,5 @@ then
 fi
 
 %changelog
-* Thu May 31 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-1puzzle
+* Thu May 31 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.1
 - A simple RPM for Oracle Java, not using sources but binary archive from Oracle

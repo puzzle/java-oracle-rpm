@@ -1,13 +1,13 @@
 %global majorver 1.6.0
 %global minorver 32
-%global releasever 1
+%global releasever 2
 %global priority 16100
 %global javaver %{majorver}.%{minorver}
-%global shortname java-%{majorver}-oracle-jre
+%global shortname java-%{majorver}-oracle
 %global longname %{shortname}-%{javaver}
 # _jvmdir macro not working
 %global jvmdir /usr/lib/jvm
-%global installdir %{jvmdir}/%{shortname}.x86_64
+%global installdir %{jvmdir}/jre-%{majorver}-oracle.x86_64
 
 Name:	%{shortname}
 Version: %{javaver}
@@ -27,6 +27,11 @@ Environment to run Java programs.
 
 %prep
 %setup -q -n %{longname}-x86_64
+# replace libodbc dependencies, fedora/redhat only provides libodbc(inst).so.n but no libodbc(inst).so
+%global _use_internal_dependency_generator 0
+%global requires_replace /bin/sh -c "%{__find_requires} | %{__sed} -e 's/libodbc.so/libodbc.so.2/;s/libodbcinst.so/libodbcinst.so.2/'"
+%global __find_requires %{requires_replace}
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -71,5 +76,9 @@ then
 fi
 
 %changelog
+* Thu Jun 6 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.2
+- Re-added libodbc fix, bug somehow reappeared
+- Changed name from java-...-jre to java-...
+
 * Thu May 31 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.1
 - A simple RPM for Oracle Java, not using sources but binary archive from Oracle

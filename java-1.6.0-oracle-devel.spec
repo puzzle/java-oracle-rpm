@@ -1,13 +1,13 @@
 %global majorver 1.6.0
 %global minorver 32
-%global releasever 1
+%global releasever 2
 %global priority 16200
 %global javaver %{majorver}.%{minorver}
-%global shortname java-%{majorver}-oracle-jdk
+%global shortname java-%{majorver}-oracle-devel
 %global longname %{shortname}-%{javaver}
 # _jvmdir macro not working
 %global jvmdir /usr/lib/jvm
-%global installdir %{jvmdir}/%{shortname}.x86_64
+%global installdir %{jvmdir}/java-%{majorver}-oracle.x86_64
 
 Name:	%{shortname}
 Version: %{javaver}
@@ -27,6 +27,10 @@ Tools to develop Java programs.
 
 %prep
 %setup -q -n %{longname}-x86_64
+# replace libodbc dependencies, fedora/redhat only provides libodbc(inst).so.n but no libodbc(inst).so
+%global _use_internal_dependency_generator 0
+%global requires_replace /bin/sh -c "%{__find_requires} | %{__sed} -e 's/libodbc.so/libodbc.so.2/;s/libodbcinst.so/libodbcinst.so.2/'"
+%global __find_requires %{requires_replace}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -40,7 +44,7 @@ find $RPM_BUILD_ROOT%{installdir} -type f -o -type l | sed 's|'$RPM_BUILD_ROOT'|
 %post
 alternatives \
   --install %{_bindir}/java java %{installdir}/bin/java %{priority} \
-  --slave %{jvmdir}/jdk jdk %{installdir} \
+  --slave %{jvmdir}/jre jre %{installdir}/jre \
   --slave %{_bindir}/java_vm java_vm %{installdir}/bin/java_vm \
   --slave %{_bindir}/javaws javaws %{installdir}/bin/javaws \
   --slave %{_bindir}/jcontrol jcontrol %{installdir}/bin/jcontrol \
@@ -133,5 +137,10 @@ then
 fi
 
 %changelog
+* Thu Jun 6 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.2
+- Fix: /usr/lib/jvm/jre link was missing
+- Re-added libodbc fix, bug somehow reappeared
+- Changed name from java-...-jdk to java-...-devel
+
 * Thu May 31 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.1
 - A simple RPM for Oracle Java, not using sources but binary archive from Oracle

@@ -1,6 +1,6 @@
 %global majorver 1.6.0
 %global minorver 32
-%global releasever 2
+%global releasever 3
 %global priority 16200
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
@@ -69,7 +69,7 @@ alternatives \
   --slave %{_mandir}/man1/unpack200.1 unpack200.1 %{installdir}/man/man1/unpack200.1
 alternatives \
   --install %{_bindir}/javac javac %{installdir}/bin/javac %{priority} \
-  --slave %{jvmdir}/jdk jdk %{installdir} \
+  --slave %{jvmdir}/java java_sdk %{installdir} \
   --slave %{_bindir}/appletviewer appletviewer %{installdir}/bin/appletviewer \
   --slave %{_bindir}/apt apt %{installdir}/bin/apt \
   --slave %{_bindir}/extcheck extcheck %{installdir}/bin/extcheck \
@@ -137,6 +137,9 @@ then
 fi
 
 %changelog
+* Fri Jun 8 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.3
+- Fix: javac alternative should set /usr/lib/jvm/java link instead of /usr/lib/jvm/jdk
+
 * Thu Jun 6 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.2
 - Fix: /usr/lib/jvm/jre link was missing
 - Re-added libodbc fix, bug somehow reappeared

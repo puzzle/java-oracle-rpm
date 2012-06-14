@@ -1,6 +1,6 @@
 %global majorver 1.6.0
-%global minorver 32
-%global releasever 2
+%global minorver 33
+%global releasever 1
 %global priority 16100
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle
@@ -76,6 +76,9 @@ then
 fi
 
 %changelog
+* Thu Jun 14 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.1
+- Updated to Java Release 33
+
 * Thu Jun 6 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.2
 - Re-added libodbc fix, bug somehow reappeared
 - Changed name from java-...-jre to java-...

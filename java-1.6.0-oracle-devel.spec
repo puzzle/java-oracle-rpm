@@ -1,6 +1,6 @@
 %global majorver 1.6.0
-%global minorver 32
-%global releasever 3
+%global minorver 33
+%global releasever 1
 %global priority 16200
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
@@ -137,6 +137,9 @@ then
 fi
 
 %changelog
+* Fri Jun 14 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.1
+- Updated to Java Release 33
+
 * Fri Jun 8 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.3
 - Fix: javac alternative should set /usr/lib/jvm/java link instead of /usr/lib/jvm/jdk
 

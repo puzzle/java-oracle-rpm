@@ -4,6 +4,7 @@
 
 * A simple RPM for Oracle Java
 * Not compiled from sources, but using the binary download from Oracle as source for the RPM
+* Only x86\_64 is supported, I could not run the 32bit binaries from Oracle on 64bit, sorry ...
 
 ## jre/jdk/devel packages
 

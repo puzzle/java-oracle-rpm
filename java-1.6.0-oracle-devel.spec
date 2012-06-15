@@ -1,24 +1,23 @@
 %global majorver 1.6.0
 %global minorver 33
-%global releasever 1
+%global releasever 2
 %global priority 16200
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
 %global longname %{shortname}-%{javaver}
-# _jvmdir macro not working
-%global jvmdir /usr/lib/jvm
-%global installdir %{jvmdir}/java-%{majorver}-oracle.x86_64
+%global installdir %{_jvmdir}/java-%{majorver}-oracle.x86_64
 
 Name:	%{shortname}
 Version: %{javaver}
 Release: puzzle.%{releasever}%{?dist}
 Summary: Oracle Java SE Development Kit
-
 Group: Development/Languages
 License: Oracle Corporation Binary Code License
 URL: http://www.oracle.com/technetwork/java/javase/overview/index.html
 Source0: %{longname}-x86_64.tgz
 BuildArch: x86_64
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires: jpackage-utils
 Requires(post): %{_sbindir}/alternatives
 Requires(postun): %{_sbindir}/alternatives
 
@@ -32,6 +31,9 @@ Tools to develop Java programs.
 %global requires_replace /bin/sh -c "%{__find_requires} | %{__sed} -e 's/libodbc.so/libodbc.so.2/;s/libodbcinst.so/libodbcinst.so.2/'"
 %global __find_requires %{requires_replace}
 
+%build
+# nope
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d -m 755 $RPM_BUILD_ROOT%{installdir}
@@ -44,7 +46,7 @@ find $RPM_BUILD_ROOT%{installdir} -type f -o -type l | sed 's|'$RPM_BUILD_ROOT'|
 %post
 alternatives \
   --install %{_bindir}/java java %{installdir}/bin/java %{priority} \
-  --slave %{jvmdir}/jre jre %{installdir}/jre \
+  --slave %{_jvmdir}/jre jre %{installdir}/jre \
   --slave %{_bindir}/java_vm java_vm %{installdir}/bin/java_vm \
   --slave %{_bindir}/javaws javaws %{installdir}/bin/javaws \
   --slave %{_bindir}/jcontrol jcontrol %{installdir}/bin/jcontrol \
@@ -69,7 +71,7 @@ alternatives \
   --slave %{_mandir}/man1/unpack200.1 unpack200.1 %{installdir}/man/man1/unpack200.1
 alternatives \
   --install %{_bindir}/javac javac %{installdir}/bin/javac %{priority} \
-  --slave %{jvmdir}/java java_sdk %{installdir} \
+  --slave %{_jvmdir}/java java_sdk %{installdir} \
   --slave %{_bindir}/appletviewer appletviewer %{installdir}/bin/appletviewer \
   --slave %{_bindir}/apt apt %{installdir}/bin/apt \
   --slave %{_bindir}/extcheck extcheck %{installdir}/bin/extcheck \
@@ -137,6 +139,11 @@ then
 fi
 
 %changelog
+* Fri Jun 15 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.2
+- Fix: must set BuildRoot for epel-5
+- Requiring jpackage-utils for _jvmdir macro
+- Added empty build section for clarity
+
 * Fri Jun 14 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.1
 - Updated to Java Release 33
 

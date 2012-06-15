@@ -1,24 +1,23 @@
 %global majorver 1.6.0
 %global minorver 33
-%global releasever 1
+%global releasever 2
 %global priority 16100
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle
 %global longname %{shortname}-%{javaver}
-# _jvmdir macro not working
-%global jvmdir /usr/lib/jvm
-%global installdir %{jvmdir}/jre-%{majorver}-oracle.x86_64
+%global installdir %{_jvmdir}/jre-%{majorver}-oracle.x86_64
 
 Name:	%{shortname}
 Version: %{javaver}
 Release: puzzle.%{releasever}%{?dist}
 Summary: Oracle Java SE Runtime Environment
-
 Group: Development/Languages
 License: Oracle Corporation Binary Code License
 URL: http://www.oracle.com/technetwork/java/javase/overview/index.html
 Source0: %{longname}-x86_64.tgz
 BuildArch: x86_64
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires: jpackage-utils
 Requires(post): %{_sbindir}/alternatives
 Requires(postun): %{_sbindir}/alternatives
 
@@ -32,6 +31,8 @@ Environment to run Java programs.
 %global requires_replace /bin/sh -c "%{__find_requires} | %{__sed} -e 's/libodbc.so/libodbc.so.2/;s/libodbcinst.so/libodbcinst.so.2/'"
 %global __find_requires %{requires_replace}
 
+%build
+# nope
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -45,7 +46,7 @@ find $RPM_BUILD_ROOT%{installdir} -type f -o -type l | sed 's|'$RPM_BUILD_ROOT'|
 %post
 alternatives \
   --install %{_bindir}/java java %{installdir}/bin/java %{priority} \
-  --slave %{jvmdir}/jre jre %{installdir} \
+  --slave %{_jvmdir}/jre jre %{installdir} \
   --slave %{_bindir}/java_vm java_vm %{installdir}/bin/java_vm \
   --slave %{_bindir}/javaws javaws %{installdir}/bin/javaws \
   --slave %{_bindir}/jcontrol jcontrol %{installdir}/bin/jcontrol \
@@ -76,6 +77,11 @@ then
 fi
 
 %changelog
+* Fri Jun 15 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.2
+- Fix: must set BuildRoot for epel-5
+- Requiring jpackage-utils for _jvmdir macro
+- Added empty build section for clarity
+
 * Thu Jun 14 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.1
 - Updated to Java Release 33
 

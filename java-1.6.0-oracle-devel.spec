@@ -1,11 +1,13 @@
 %global majorver 1.6.0
 %global minorver 33
-%global releasever 2
+%global releasever 3
 %global priority 16200
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
 %global longname %{shortname}-%{javaver}
 %global installdir %{_jvmdir}/java-%{majorver}-oracle.x86_64
+
+%define debug_package %{nil}
 
 Name:	%{shortname}
 Version: %{javaver}
@@ -16,10 +18,13 @@ License: Oracle Corporation Binary Code License
 URL: http://www.oracle.com/technetwork/java/javase/overview/index.html
 Source0: %{longname}-x86_64.tgz
 BuildArch: x86_64
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: jpackage-utils
 Requires(post): %{_sbindir}/alternatives
 Requires(postun): %{_sbindir}/alternatives
+
+%if 0%{?el5}
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+%endif
 
 %description
 Tools to develop Java programs.
@@ -139,6 +144,10 @@ then
 fi
 
 %changelog
+* Tue Jun 19 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.3
+- Set BuildRoot only for epel-5, causes problems with epel-6
+- Disable find-debuginfo.sh
+
 * Fri Jun 15 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.2
 - Fix: must set BuildRoot for epel-5
 - Requiring jpackage-utils for _jvmdir macro

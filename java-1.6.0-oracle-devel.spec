@@ -1,6 +1,6 @@
 %global majorver 1.6.0
 %global minorver 33
-%global releasever 4
+%global releasever 5
 %global priority 16000
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
@@ -77,7 +77,7 @@ install -d -m 755 $RPM_BUILD_ROOT%{installdir}
 cp -a * $RPM_BUILD_ROOT%{installdir}
 install -d -m 755 $RPM_BUILD_ROOT%{jarinstalldir}
 pushd $RPM_BUILD_ROOT%{jarinstalldir}
-  RELATIVE=$(%{abs2rel} %{installdir}/lib %{jarinstalldir})
+  RELATIVE=$(%{abs2rel} %{installdir}/jre/lib %{jarinstalldir})
   ln -sf $RELATIVE/jsse.jar jsse-%{version}.jar
   ln -sf $RELATIVE/jce.jar jce-%{version}.jar
   ln -sf $RELATIVE/rt.jar jndi-%{version}.jar
@@ -212,6 +212,9 @@ then
 fi
 
 %changelog
+* Fri Jun 22 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.5
+- Fixed jar export links
+
 * Fri Jun 22 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.4
 - Added provides
 - Added jar exports

@@ -1,6 +1,6 @@
 %global majorver 1.6.0
 %global minorver 33
-%global releasever 4
+%global releasever 5
 %global priority 16000
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle
@@ -70,7 +70,7 @@ install -d -m 755 $RPM_BUILD_ROOT%{installdir}
 cp -a * $RPM_BUILD_ROOT%{installdir}
 install -d -m 755 $RPM_BUILD_ROOT%{jarinstalldir}
 pushd $RPM_BUILD_ROOT%{jarinstalldir}
-  RELATIVE=$(%{abs2rel} %{installdir}/jre/lib %{jarinstalldir})
+  RELATIVE=$(%{abs2rel} %{installdir}/lib %{jarinstalldir})
   ln -sf $RELATIVE/jsse.jar jsse-%{version}.jar
   ln -sf $RELATIVE/jce.jar jce-%{version}.jar
   ln -sf $RELATIVE/rt.jar jndi-%{version}.jar
@@ -120,10 +120,13 @@ alternatives \
   --slave %{_mandir}/man1/unpack200.1 unpack200.1 %{installdir}/man/man1/unpack200.1
 alternatives \
   --install %{_jvmdir}/jre-oracle jre_oracle %{installdir} %{priority} \
-  --slave %{_jvmjardir}/jre-oracle jre_oracle %{jarinstalldir}
+  --slave %{_jvmjardir}/jre-oracle jre_oracle_exports %{jarinstalldir}
 alternatives \
   --install %{_jvmdir}/jre-%{majorver} jre_%{majorver} %{installdir} %{priority} \
-  --slave %{_jvmjardir}/jre-%{majorver} jre_%{majorver} %{jarinstalldir}
+  --slave %{_jvmjardir}/jre-%{majorver} jre_%{majorver}_exports %{jarinstalldir}
+alternatives \
+  --install %{_libdir}/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 %{installdir}/lib/amd64/libnpjp2.so %{priority} \
+  --slave %{_bindir}/javaws javaws %{installdir}/bin/javaws
 
 %postun
 if [ $1 -eq 0 ]
@@ -131,9 +134,15 @@ then
   alternatives --remove java %{installdir}/bin/java
   alternatives --remove jre_oracle %{installdir}
   alternatives --remove jre_%{majorver} %{installdir}
+  alternatives --remove libjavaplugin.so.x86_64 %{installdir}/lib/amd64/libnpjp2.so
 fi
 
 %changelog
+* Fri Jul 20 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.5
+- Fixed jre exports symlinks
+- Fixed duplicate in jre alternative
+- Added java plugin alternative
+
 * Fri Jun 22 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.4
 - Added provides
 - Added jar exports

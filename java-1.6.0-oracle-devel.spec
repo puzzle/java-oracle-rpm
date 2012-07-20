@@ -1,6 +1,6 @@
 %global majorver 1.6.0
 %global minorver 33
-%global releasever 5
+%global releasever 6
 %global priority 16000
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
@@ -103,7 +103,7 @@ alternatives \
   --install %{_bindir}/java java %{installdir}/bin/java %{priority} \
   --slave %{_jvmdir}/jre jre %{installdir}/jre \
   --slave %{_jvmjardir}/jre jre_exports %{jarinstalldir} \
-  --slave %{_bindir}/java_vm java_vm %{installdir}/bin/java_vm \
+  --slave %{_bindir}/java_vm java_vm %{installdir}/jre/bin/java_vm \
   --slave %{_bindir}/javaws javaws %{installdir}/bin/javaws \
   --slave %{_bindir}/jcontrol jcontrol %{installdir}/bin/jcontrol \
   --slave %{_bindir}/keytool keytool %{installdir}/bin/keytool \
@@ -199,6 +199,10 @@ alternatives \
 alternatives \
   --install %{_jvmdir}/java-%{majorver} java_sdk_%{majorver} %{installdir} %{priority} \
   --slave %{_jvmjardir}/java-%{majorver} java_sdk_%{majorver}_exports %{jarinstalldir}
+alternatives \
+  --install %{_libdir}/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 %{installdir}/jre/lib/amd64/libnpjp2.so %{priority} \
+  --slave %{_bindir}/javaws javaws %{installdir}/bin/javaws \
+  --slave %{_mandir}/man1/javaws.1 javaws.1 %{installdir}/man/man1/javaws.1
 
 %postun
 if [ $1 -eq 0 ]
@@ -209,9 +213,14 @@ then
   alternatives --remove javac %{installdir}/bin/javac
   alternatives --remove java_sdk_oracle %{installdir}
   alternatives --remove java_sdk_%{majorver} %{installdir}
+  alternatives --remove libjavaplugin.so.x86_64 %{installdir}/jre/lib/amd64/libnpjp2.so
 fi
 
 %changelog
+* Fri Jul 20 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.6
+- Fixed java_vm alternative link
+- Added java plugin alternative
+
 * Fri Jun 22 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.5
 - Fixed jar export links
 

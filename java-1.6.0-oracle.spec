@@ -1,6 +1,6 @@
 %global majorver 1.6.0
 %global minorver 33
-%global releasever 5
+%global releasever 6
 %global priority 16000
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle
@@ -86,8 +86,9 @@ pushd $RPM_BUILD_ROOT%{jarinstalldir}
     ln -sf $jar $(echo $jar | sed "s|-%{version}.jar|.jar|g")
   done
 popd
-find $RPM_BUILD_ROOT%{installdir} $RPM_BUILD_ROOT%{jarinstalldir} -type d | sed 's|'$RPM_BUILD_ROOT'|%dir |' >> files
-find $RPM_BUILD_ROOT%{installdir} $RPM_BUILD_ROOT%{jarinstalldir} -type f -o -type l | sed 's|'$RPM_BUILD_ROOT'||' >> files
+install -d -m 755 $RPM_BUILD_ROOT%{_libdir}/mozilla/plugins
+find $RPM_BUILD_ROOT -type d | sed 's|'$RPM_BUILD_ROOT'|%dir |' >> files
+find $RPM_BUILD_ROOT -type f -o -type l | sed 's|'$RPM_BUILD_ROOT'||' >> files
 
 %files -f files
 
@@ -138,6 +139,9 @@ then
 fi
 
 %changelog
+* Thu Jul 26 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.6
+- Fixed missing mozilla plugins directory for alternatives link
+
 * Fri Jul 20 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.5
 - Fixed jre exports symlinks
 - Fixed duplicate in jre alternative

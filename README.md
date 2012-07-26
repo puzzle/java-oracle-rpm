@@ -8,7 +8,7 @@
 
 ## jre/jdk/devel packages
 
-* In RedHat tradition there is a java-<version>-<origin> RPM that contains the JRE and is complemented by the -devel package that contains additional JDK data and depends on the JRE package. However, this is not how Oracle distributes Java. The Oracle JDK includes the JRE. You can install both at the same time, but you do not have to. So for Oracle the devel package does not require the JRE package.
+* In RedHat tradition there is a java-\<version\>-\<origin\> RPM that contains the JRE and is complemented by the -devel package that contains additional JDK data and depends on the JRE package. However, this is not how Oracle distributes Java. The Oracle JDK includes the JRE. You can install both at the same time, but you do not have to. So for Oracle the devel package does not require the JRE package.
 
 ## How to create the non-distributable source tarball for building the RPM?
 

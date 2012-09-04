@@ -12,8 +12,6 @@
 
 ## How to create the non-distributable source tarball for building the RPM?
 
-* Download binary tarball from Oracle
-* Run binary
-* Rename extracted folder, e.g. for JRE: java-1.6.0-oracle-1.6.0.32-x86\_64, for JDK: java-1.6.0-oracle-devel-1.6.0.32-x86\_64
-* Create tarball: `tar czf java-1.6.0-oracle-1.6.0.32-x86_64.tgz java-1.6.0-oracle-1.6.0.32-x86_64`
-* Versions, architecture and extension (devel) must match RPM spec file
+* Download binary tarball from Oracle, make sure you pick the right architecture
+* Run binary, this extracts into a folder like `jre1.6.0_35`
+* Create tarball, like: `tar -cz --owner=nobody --group=nobody -f jre-6u35-linux-x64.tar.gz jre1.6.0_35`

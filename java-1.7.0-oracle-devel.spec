@@ -1,7 +1,7 @@
-%global majorver 1.6.0
-%global minorver 35
+%global majorver 1.7.0
+%global minorver 7
 %global releasever 1
-%global priority 16035
+%global priority 17007
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
 %global longname %{shortname}-%{javaver}
@@ -22,7 +22,7 @@ Summary: Oracle Java SE Development Kit
 Group: Development/Languages
 License: Oracle Corporation Binary Code License
 URL: http://www.oracle.com/technetwork/java/javase/overview/index.html
-Source0: jdk-6u%{minorver}-linux-x64.tar.gz
+Source0: jdk-7u%{minorver}-linux-x64.tar.gz
 BuildArch: x86_64
 BuildRequires: jpackage-utils
 BuildRequires: perl
@@ -62,7 +62,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Tools to develop Java programs.
 
 %prep
-%setup -q -n jdk%{majorver}_%{minorver}
+%setup -q -n jdk%{majorver}_0%{minorver}
 # replace libodbc dependencies, fedora/redhat only provides libodbc(inst).so.n but no libodbc(inst).so
 %global _use_internal_dependency_generator 0
 %global requires_replace /bin/sh -c "%{__find_requires} | %{__sed} -e 's/libodbc.so/libodbc.so.2/;s/libodbcinst.so/libodbcinst.so.2/'"
@@ -73,6 +73,8 @@ Tools to develop Java programs.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+# ldd dependencies of the following libraries can not be resolved in the distribution, so remove them
+rm jre/lib/amd64/fxavcodecplugin-52.so jre/lib/amd64/fxavcodecplugin-53.so jre/lib/amd64/fxplugins.so
 install -d -m 755 $RPM_BUILD_ROOT%{installdir}
 cp -a * $RPM_BUILD_ROOT%{installdir}
 install -d -m 755 $RPM_BUILD_ROOT%{jarinstalldir}
@@ -218,47 +220,6 @@ then
 fi
 
 %changelog
-* Tue Sep 04 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.35-puzzle.1
-- New java release
-- Changed tarball and build directory names to match Oracle scheme
-- Using minor version in priority
-
-* Thu Jul 26 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.7
-- Fixed missing mozilla plugins directory for alternatives link
-
-* Fri Jul 20 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.6
-- Fixed java_vm alternative link
-- Added java plugin alternative
-
-* Fri Jun 22 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.5
-- Fixed jar export links
-
-* Fri Jun 22 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.4
-- Added provides
-- Added jar exports
-- Added jre alternatives
-- Changed alternatives priority to default
-- Added epoch
-
-* Tue Jun 19 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.3
-- Set BuildRoot only for epel-5, causes problems with epel-6
-- Disable find-debuginfo.sh
-
-* Fri Jun 15 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.2
-- Fix: must set BuildRoot for epel-5
-- Requiring jpackage-utils for _jvmdir macro
-- Added empty build section for clarity
-
-* Fri Jun 14 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.33-puzzle.1
-- Updated to Java Release 33
-
-* Fri Jun 8 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.3
-- Fix: javac alternative should set /usr/lib/jvm/java link instead of /usr/lib/jvm/jdk
-
-* Thu Jun 6 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.2
-- Fix: /usr/lib/jvm/jre link was missing
-- Re-added libodbc fix, bug somehow reappeared
-- Changed name from java-...-jdk to java-...-devel
-
-* Thu May 31 2012 Anselm Strauss <strauss@puzzle.ch> - 1.6.0.32-puzzle.1
-- A simple RPM for Oracle Java, not using sources but binary archive from Oracle
+* Tue Sep 04 2012 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.7-puzzle.1
+- Initial version, copied from 1.6.0.35-puzzle.1
+- Removed javafx plugin libraries, can not resolve ldd deps

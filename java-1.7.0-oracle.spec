@@ -1,7 +1,7 @@
 %global majorver 1.7.0
-%global minorver 7
+%global minorver 9
 %global releasever 1
-%global priority 17007
+%global priority 17009
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle
 %global longname %{shortname}-%{javaver}
@@ -141,6 +141,9 @@ then
 fi
 
 %changelog
+* Tue Nov 13 2012 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.9-puzzle.1
+- Updated to release 9
+
 * Tue Sep 04 2012 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.7-puzzle.1
 - Initial version, copied from 1.6.0.35-puzzle.1
 - Removed javafx plugin libraries, can not resolve ldd deps

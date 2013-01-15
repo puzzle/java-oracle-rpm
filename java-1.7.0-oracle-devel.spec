@@ -1,7 +1,7 @@
 %global majorver 1.7.0
-%global minorver 9
+%global minorver 11
 %global releasever 1
-%global priority 17009
+%global priority 17011
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
 %global longname %{shortname}-%{javaver}
@@ -62,7 +62,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Tools to develop Java programs.
 
 %prep
-%setup -q -n jdk%{majorver}_0%{minorver}
+%setup -q -n jdk%{majorver}_%{minorver}
 # replace libodbc dependencies, fedora/redhat only provides libodbc(inst).so.n but no libodbc(inst).so
 %global _use_internal_dependency_generator 0
 %global requires_replace /bin/sh -c "%{__find_requires} | %{__sed} -e 's/libodbc.so/libodbc.so.2/;s/libodbcinst.so/libodbcinst.so.2/'"
@@ -220,6 +220,9 @@ then
 fi
 
 %changelog
+* Tue Jan 15 2013 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.11-puzzle.1
+- Updated to release 11
+
 * Tue Nov 13 2012 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.9-puzzle.1
 - Updated to release 9
 

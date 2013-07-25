@@ -1,7 +1,7 @@
 %global majorver 1.7.0
-%global minorver 11
+%global minorver 25
 %global releasever 1
-%global priority 17011
+%global priority 17025
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle-devel
 %global longname %{shortname}-%{javaver}
@@ -220,6 +220,9 @@ then
 fi
 
 %changelog
+* Thu Jul 25 2013 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.25-puzzle.1
+- Updated to release 25
+
 * Tue Jan 15 2013 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.11-puzzle.1
 - Updated to release 11
 

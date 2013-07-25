@@ -3,7 +3,8 @@
 ## What is it?
 
 * A simple RPM for Oracle Java
-* Not compiled from sources, but using the binary download from Oracle as source for the RPM
+* Distributing Oracle Java in binary or source form is critical due to it's restrictive license. Therefore you will have make the download from Oracle and build the RPM yourself.
+* This RPM is not compiled from sources, but using the binary download from Oracle as source for the RPM.
 * Only x86\_64 is supported, I could not run the 32bit binaries from Oracle on 64bit, sorry ...
 
 ## jre/jdk/devel packages
@@ -12,6 +13,6 @@
 
 ## Howto 
 
-* Download binary tarball from Oracle, like jdk-7u7-linux-x64.tar.gz, to ~/rpmbuild/SOURCES
-* Install mock, add your user to the mock group
-* Start the build, e.g. with the included mockbuild script: `./mockbuild.sh fedora-17-x86_64 fc17 1.7.0.7 1 1`
+1. Download binary tarball from Oracle, like jdk-7u7-linux-x64.tar.gz, to ~/rpmbuild/SOURCES
+2. Install mock, add your user to the mock group
+3. Start the build, e.g. with the included mockbuild script: `./mockbuild.sh fedora-17-x86_64 fc17 1.7.0.7 1 1`

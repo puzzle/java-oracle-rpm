@@ -1,7 +1,7 @@
 %global majorver 1.7.0
-%global minorver 40
+%global minorver 25
 %global releasever 1
-%global priority 17040
+%global priority 17025
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle
 %global longname %{shortname}-%{javaver}
@@ -141,9 +141,6 @@ then
 fi
 
 %changelog
-* Mon Oct 07 2013 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.40-puzzle.1
-- Updated to release 40
-
 * Thu Jul 25 2013 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.25-puzzle.1
 - Updated to release 25
 

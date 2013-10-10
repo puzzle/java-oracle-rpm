@@ -1,7 +1,7 @@
 %global majorver 1.7.0
 %global minorver 40
-%global releasever 1
-%global priority 17040
+%global releasever 2
+%global priority 170%{minorver}
 %global javaver %{majorver}.%{minorver}
 %global shortname java-%{majorver}-oracle
 %global longname %{shortname}-%{javaver}
@@ -23,6 +23,8 @@ Group: Development/Languages
 License: Oracle Corporation Binary Code License
 URL: http://www.oracle.com/technetwork/java/javase/overview/index.html
 Source0: jre-7u%{minorver}-linux-x64.tar.gz
+# disable automatic dependency generation, many included libraries may not be used at runtime
+AutoReq: 0
 BuildArch: x86_64
 BuildRequires: jpackage-utils
 BuildRequires: perl
@@ -56,10 +58,6 @@ Environment to run Java programs.
 
 %prep
 %setup -q -n jre%{majorver}_%{minorver}
-# replace libodbc dependencies, fedora/redhat only provides libodbc(inst).so.n but no libodbc(inst).so
-%global _use_internal_dependency_generator 0
-%global requires_replace /bin/sh -c "%{__find_requires} | %{__sed} -e 's/libodbc.so/libodbc.so.2/;s/libodbcinst.so/libodbcinst.so.2/'"
-%global __find_requires %{requires_replace}
 
 %build
 # nope
@@ -141,6 +139,9 @@ then
 fi
 
 %changelog
+* Thu Oct 10 2013 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.40-puzzle.2
+- Automatically setting priority from minor release, removed automatic dependency creation
+
 * Mon Oct 07 2013 Anselm Strauss <strauss@puzzle.ch> - 1.7.0.40-puzzle.1
 - Updated to release 40
 
